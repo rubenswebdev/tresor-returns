@@ -16,7 +16,7 @@ function getEarliestActivity (values) {
   return new Date((earliest.date && earliest.date.$date) || new Date())
 }
 
-console.time('calcValueHistory')
+const start = new Date()
 
 Object.entries(activitiesByHolding).forEach(([holdingId, activitiesOfHolding]) => {
   activitiesOfHolding = orderBy(activitiesOfHolding, 'date', 'desc').reverse()
@@ -31,4 +31,11 @@ Object.entries(activitiesByHolding).forEach(([holdingId, activitiesOfHolding]) =
   calcValueHistory(activitiesOfHolding, quotesOfHolding, interval)
 })
 
-console.timeEnd('calcValueHistory')
+const end = new Date()
+const total = end - start
+const holdingsCount = Object.keys(activitiesByHolding).length
+const average = parseInt(total / holdingsCount, 10)
+
+console.info(`Total:\t\t${total}ms
+Average: \t${average}ms
+Holdings:\t${holdingsCount}`)
