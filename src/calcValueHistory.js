@@ -13,6 +13,7 @@ module.exports = function (activities, quotes, interval, i) {
     }
   }
 
+  // adjust shares bought/sold by splits that happened in the past
   activities = applySplitMultiplier(activities)
 
   const startDate = new Date(interval.start)
@@ -27,10 +28,6 @@ module.exports = function (activities, quotes, interval, i) {
 
   // create an array of all days from today to the first activity
   const dateArrFull = getDateArr(interval)
-
-  // TODO: do proper downsampling here
-  // TODO: use holding specific interval here, not the entire interval!!!
-  // important to properly sum the array afterwards
 
   const period = 1
 

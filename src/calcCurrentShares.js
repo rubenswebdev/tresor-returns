@@ -3,6 +3,7 @@ const reduce = require('lodash/reduce')
 
 const Big = require('big.js')
 
+// this function calculates the owned shares based on the passed activities.
 module.exports = function calcCurrentShares (activities) {
   if (activities.length === 0) {
     return 0
