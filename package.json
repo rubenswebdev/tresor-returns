@@ -1,0 +1,32 @@
+{
+  "name": "tresor-returns",
+  "version": "1.0.0",
+  "description": "Tresor One performance and chart calculations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeofsumit/tresor-returns.git"
+  },
+  "keywords": ["tresor", "tresor.one", "t1", "tresorone", "returns"],
+  "author": {
+    "name": "Sumit Kumar",
+    "email": "sumit@tresor.one",
+    "url": "https://tresor.oen"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codeofsumit/tresor-returns/issues"
+  },
+  "homepage": "https://github.com/codeofsumit/tresor-returns#readme",
+  "dependencies": {
+    "big.js": "^6.0.1",
+    "date-fns": "^2.16.1",
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
+  }
+}
