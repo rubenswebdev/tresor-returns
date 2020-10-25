@@ -1,6 +1,6 @@
 {
   "name": "tresor-returns",
-  "version": null,
+  "version": "1.0.0",
   "description": "Tresor One performance and chart calculations",
   "main": "index.js",
   "scripts": {
