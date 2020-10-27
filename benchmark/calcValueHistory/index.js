@@ -7,13 +7,19 @@ const quotes = require('./fixtures/quotes.json')
 
 const calcValueHistory = require('../../src/calcValueHistory')
 
-const activitiesFilered = activities.filter(a => ['Buy', 'Sell', 'split'].includes(a.type))
+const activitiesFilered = activities
+  .filter(a => ['Buy', 'Sell', 'split'].includes(a.type))
+  .map(a => ({
+    ...a,
+    date: new Date(a.date.$date)
+  }))
+
 const activitiesByHolding = groupBy(activitiesFilered, 'holding')
 
 function getEarliestActivity (values) {
   const earliest = minBy(values, x => new Date(x.date)) || {}
 
-  return new Date((earliest.date && earliest.date.$date) || new Date())
+  return new Date((earliest.date && earliest.date) || new Date())
 }
 
 const start = new Date()
