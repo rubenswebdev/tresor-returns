@@ -45,27 +45,22 @@ function getDateArr (interval) {
 }
 
 function normalizeQuotes (quotes = [], dates) {
+  let prevprice = 0
+
   const quotesPerDay = dates.map(d => {
     const t = d
 
     // TODO: possible perf potential
     const q = find(quotes, x => x.date === t)
 
+    if (q && q.price) {
+      prevprice = q.price
+    }
+
     return {
       date: t,
-      price: q && q.price ? q.price : null
+      price: q && q.price ? q.price : prevprice
     }
-  })
-
-  // remove all null values by filling in previous day values
-  quotesPerDay.forEach((q, i) => {
-    if (q.price === null || q.price === undefined) {
-      q.price = getPreviousValue(
-        quotesPerDay.map(x => x.price),
-        i
-      )
-    }
-    return q
   })
 
   return quotesPerDay
