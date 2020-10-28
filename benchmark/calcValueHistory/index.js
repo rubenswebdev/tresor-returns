@@ -1,19 +1,22 @@
 const groupBy = require('lodash/groupBy')
 const orderBy = require('lodash/orderBy')
-const minBy = require('lodash/minBy')
 const { format } = require('date-fns')
 const activities = require('./fixtures/activities.json')
 const quotes = require('./fixtures/quotes.json')
 
 const calcValueHistory = require('../../src/calcValueHistory')
 
-const activitiesFilered = activities.filter(a => ['Buy', 'Sell', 'split'].includes(a.type))
+const activitiesFilered = activities
+  .filter(a => ['Buy', 'Sell', 'split'].includes(a.type))
+
 const activitiesByHolding = groupBy(activitiesFilered, 'holding')
 
 function getEarliestActivity (values) {
-  const earliest = minBy(values, x => new Date(x.date)) || {}
+  if (!values.length) {
+    return format(new Date(), 'yyyy-MM-dd')
+  }
 
-  return new Date((earliest.date && earliest.date.$date) || new Date())
+  return orderBy(values, ['date'], ['asc'])[0].date
 }
 
 const start = new Date()
@@ -22,10 +25,11 @@ Object.entries(activitiesByHolding).forEach(([holdingId, activitiesOfHolding]) =
   activitiesOfHolding = orderBy(activitiesOfHolding, 'date', 'desc').reverse()
   const quotesOfHolding = quotes[holdingId]
   const earliestActivity = getEarliestActivity(activitiesOfHolding)
+  const now = format(new Date(), 'yyyy-MM-dd')
 
   const interval = {
-    start: format(earliestActivity, 'yyyy-MM-dd'),
-    end: format(new Date(), 'yyyy-MM-dd')
+    start: earliestActivity,
+    end: now
   }
 
   calcValueHistory(activitiesOfHolding, quotesOfHolding, interval)
