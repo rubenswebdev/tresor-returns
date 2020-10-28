@@ -1,4 +1,3 @@
-const filter = require('lodash/filter')
 const reduce = require('lodash/reduce')
 
 const Big = require('big.js')
@@ -9,14 +8,16 @@ module.exports = function calcCurrentShares (activities) {
     return 0
   }
 
-  const purchases = filter(activities, a => a.type === 'Buy')
-  const sales = filter(activities, a => a.type === 'Sell')
-
   const zero = Big(0)
-  const purchased =
-    reduce(purchases, (sum, p) => Big(p.shares).plus(sum), zero) || zero
 
-  const sold = reduce(sales, (sum, p) => Big(p.shares).plus(sum), zero) || zero
-
-  return +purchased.minus(sold)
+  return +reduce(activities, (sum, x) => {
+    switch (x.type) {
+      case 'Buy':
+        return Big(x.shares).plus(sum)
+      case 'Sell':
+        return Big(x.shares).minus(sum)
+      default:
+        return sum
+    }
+  }, zero) || zero
 }
