@@ -1,6 +1,7 @@
 const cloneDeep = require('lodash/cloneDeep')
 const filter = require('lodash/filter')
 const find = require('lodash/find')
+const keyBy = require('lodash/keyBy')
 const Big = require('big.js')
 const {
   format,
@@ -44,24 +45,28 @@ function getDateArr (interval) {
   return dateArr
 }
 
+// iterate all dates verifing if it have a price in the quotes
+// we save the last founded price to fill the next dates without price
+// if a date dont have price it will be filled with the previous price we save
+// when the first price was found, if exists, we fill the firsts empty elements
+// the output will be the dates array and every day will have a price
 function normalizeQuotes (quotes = [], dates) {
+  quotes = keyBy(quotes, 'date')
   let price = 0
-
+  let priceFound = false
   const quotesPerDay = []
-  let alreadyFindPrice = false
 
   for (let i = 0; i < dates.length; i++) {
     const t = dates[i]
-
-    // TODO: possible perf potential
-    const q = find(quotes, x => x.date === t)
+    const q = quotes[t]
 
     if (q && q.price) {
       price = q.price
 
-      if (!alreadyFindPrice) {
+      // Fills empty starting values by take the first empty elements of the array and fill in the first price that was found.
+      if (!priceFound) {
         quotesPerDay.slice(0, i).map(q => q.price = price);
-        alreadyFindPrice = true
+        priceFound = true
       }
     }
 
