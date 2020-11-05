@@ -1,6 +1,6 @@
 {
   "name": "@tresor.one/returns",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tresor One performance and chart calculations",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/codeofsumit/tresor-returns.git"
   },
-  "keywords": ["tresor", "tresor.one", "t1", "tresorone", "returns"],
+  "keywords": [
+    "tresor",
+    "tresor.one",
+    "t1",
+    "tresorone",
+    "returns"
+  ],
   "author": {
     "name": "Sumit Kumar",
     "email": "sumit@tresor.one",
