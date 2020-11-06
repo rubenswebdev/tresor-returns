@@ -10,14 +10,20 @@ module.exports = function calcCurrentShares (activities) {
 
   const zero = Big(0)
 
-  return +reduce(activities, (sum, x) => {
-    switch (x.type) {
-      case 'Buy':
-        return Big(x.shares).plus(sum)
-      case 'Sell':
-        return Big(x.shares).minus(sum)
-      default:
-        return sum
-    }
-  }, zero) || zero
+  return (
+    +reduce(
+      activities,
+      (sum, x) => {
+        switch (x.type) {
+          case 'Buy':
+            return sum.plus(Big(x.shares))
+          case 'Sell':
+            return sum.minus(Big(x.shares))
+          default:
+            return sum
+        }
+      },
+      zero
+    ) || +zero
+  )
 }
