@@ -24,6 +24,9 @@ const start = new Date()
 Object.entries(activitiesByHolding).forEach(([holdingId, activitiesOfHolding]) => {
   activitiesOfHolding = orderBy(activitiesOfHolding, 'date', 'desc').reverse()
   const quotesOfHolding = quotes[holdingId]
+
+  console.log(quotesOfHolding)
+
   const earliestActivity = getEarliestActivity(activitiesOfHolding)
   const now = format(new Date(), 'yyyy-MM-dd')
 
